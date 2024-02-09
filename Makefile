@@ -1,5 +1,5 @@
-IMAGE_NAME := kanynini-tinycore
-IMAGE_TAG := py3.6
+IMAGE_NAME := tinycore-python
+IMAGE_TAG := 3.6
 
 .PHONY: all clean build
 
@@ -14,4 +14,8 @@ clean:
 	docker images $(IMAGE_NAME) | grep -q latest && docker rmi $(IMAGE_NAME):latest || true
 
 run:
-	docker run -it $(IMAGE_NAME):$(IMAGE_TAG) 
+	docker run -it --net=host --privileged -v /dev:/dev -v /Users/robertodelprete/Desktop/KANYINI/ncsdk/:/home/tc  --user tc $(IMAGE_NAME):$(IMAGE_TAG) /bin/sh
+
+run_from_hub:
+	docker pull tatsushid/tinycore-python:3.6
+	docker run -it --net=host --privileged -v /dev:/dev -v /Users/robertodelprete/Desktop/KANYINI/ncsdk/:/home/tc  --user tc tatsushid/tinycore-python:3.6 /bin/sh

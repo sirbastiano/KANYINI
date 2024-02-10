@@ -9,7 +9,7 @@ ENV LANG=C.UTF-8 LC_ALL=C
 RUN tce-load -wic gnupg curl \
     && rm -rf /tmp/tce/optional/*
 
-# gpg: key AA65421D: public key "Ned Deily (Python release signing key) <nad@python.org>" imported
+# gpg: key changed to the ones of base-python
 RUN gpg2 --keyserver keyserver.ubuntu.com --recv-keys 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 
 ENV PYTHON_VERSION 3.7.0
@@ -93,20 +93,54 @@ RUN tce-load -wic \
     && sudo rm -f /usr/bin/file \
     && sudo /sbin/ldconfig \
     && rm -rf /tmp/tce/optional/* \
+    && curl -SL 'https://bootstrap.pypa.io/get-pip.py' | sudo python2 \
     && curl -SL 'https://bootstrap.pypa.io/get-pip.py' | sudo python3 \
     && sudo pip3 install --no-cache-dir --upgrade pip==$PYTHON_PIP_VERSION \
     && sudo find /usr/local \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' + \
     && find /usr/local \( -type d -a -name test -o -name tests \) | sudo xargs rm -rf \
     && sudo rm -rf /usr/src/python
 
+RUN tce-load -wic \
+        libffi-dev \
+        bash \
+        usb-utils \
+        bzip2-dev \
+        flex \
+        file \
+        gcc \
+        make \
+        linux-4.2.1_api_headers \
+        glibc_add_lib \
+        glibc_base-dev \
+        openssl-dev \
+        gdbm-dev \
+        ncurses-dev \
+        readline-dev \
+        sqlite3-dev \
+        liblzma-dev \
+        zlib_base-dev \
+        tk-dev \
+        libX11-dev \
+        libXss \
+        xorg-proto \
+        unzip \
+        coreutils \
+        curl \
+        automake \
+        libusb-dev \
+        cmake \
+        libxslt-dev \
+        libxml2-dev \
+        git
+
 # Instructions after here are run with 'root' user
 USER root
 
-RUN cd /usr/local/bin \
-    && ln -s easy_install-3.6 easy_install \
-    && ln -s idel3 idle \
-    && ln -s pydoc3 pydoc \
-    && ln -s python3 python \
-    && ln -s python3-config python-config
+# RUN cd /usr/local/bin \
+#     && ln -s easy_install-3.6 easy_install \
+#     && ln -s idel3 idle \
+#     && ln -s pydoc3 pydoc \
+#     && ln -s python3 python \
+#     && ln -s python3-config python-config
 
 CMD ["python3"]

@@ -1,5 +1,5 @@
 IMAGE_NAME := tinycore-python
-IMAGE_TAG := 3.6
+IMAGE_TAG := 3.7_with_pkg
 
 .PHONY: all clean build
 

@@ -14,7 +14,7 @@ clean:
 	docker images $(IMAGE_NAME) | grep -q latest && docker rmi $(IMAGE_NAME):latest || true
 
 run:
-	docker run -it --net=host --privileged -v /dev:/dev -v /Users/robertodelprete/Desktop/KANYINI/ncsdk/:/home/tc  --user tc $(IMAGE_NAME):$(IMAGE_TAG) /bin/sh
+	docker run -it --rm --platform linux/amd64 --net=host --privileged -v /dev:/dev -v /Users/robertodelprete/Desktop/KANYINI/ncsdk/:/home/tc  --user tc $(IMAGE_NAME):$(IMAGE_TAG) /bin/sh
 
 run_from_hub:
 	docker pull tatsushid/tinycore-python:3.6
